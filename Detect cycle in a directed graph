@@ -1,0 +1,48 @@
+class Solution {
+    private:
+int topoSort(int V, vector<int> adj[]) 
+	{
+	    // code here
+	   
+	   queue<int> q;
+	    vector<int> indegree(V,0);
+	    for(int i=0;i<V;i++){
+	        for(auto it: adj[i]){
+	            indegree[it]++;
+	        }
+	    }
+	    for(int i=0;i<V;i++){
+	        if(indegree[i]==0){
+	            q.push(i);
+	        }
+	    }
+	    vector<int> ans;
+	    int count=0;
+	    while(!q.empty()){
+	        int front=q.front();
+	        ans.push_back(front);
+	        q.pop();
+	        count++;
+	        for(auto i: adj[front]){
+	              indegree[i]--;
+	            if(indegree[i]==0){
+	                q.push(i);
+	            }
+	            
+	        }
+	    }
+	   
+	    return count;  
+	}
+  public:
+    // Function to detect cycle in a directed graph.
+   
+    bool isCyclic(int V, vector<int> adj[]) {
+        // code here
+          int ans=topoSort(V,adj);
+          if(ans==V){
+              return false;
+          }
+          return true;
+    }
+};
